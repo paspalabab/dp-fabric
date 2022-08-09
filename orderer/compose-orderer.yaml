@@ -9,8 +9,9 @@ volumes:
   orderer.example.com:
 
 networks:
-  test:
-    name: fabric_test
+  dp-fabric:
+    external:
+      name: dp-fabric
 
 services:
 
@@ -54,4 +55,4 @@ services:
       - 7053:7053
       - 9443:9443
     networks:
-      - test
+      - dp-fabric

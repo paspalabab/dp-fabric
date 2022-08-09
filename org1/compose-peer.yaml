@@ -9,8 +9,9 @@ volumes:
   peer0.org1.example.com:
 
 networks:
-  test:
-    name: fabric_test
+  dp-fabric:
+    external:
+      name: dp-fabric
 
 services:
 
@@ -51,4 +52,4 @@ services:
       - 7051:7051
       - 9444:9444
     networks:
-      - test
+      - dp-fabric
