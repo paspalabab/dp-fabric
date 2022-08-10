@@ -9,8 +9,9 @@ volumes:
   peer0.org3.example.com:
 
 networks:
-  test:
-    name: fabric_test
+  dp-fabric:
+    external:
+      name: dp-fabric
 
 services:
 
@@ -50,4 +51,4 @@ services:
     ports:
       - 11051:11051
     networks:
-      - test
+      - dp-fabric

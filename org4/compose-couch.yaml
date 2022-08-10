@@ -6,8 +6,9 @@
 version: '3.7'
 
 networks:
-  test:
-    name: fabric_test
+  dp-fabric:
+    external:
+      name: dp-fabric
 
 services:
   couchdb3:
@@ -25,7 +26,7 @@ services:
     ports:
       - "11984:5984"
     networks:
-      - test
+      - dp-fabric
 
   peer0.org4.example.com:
     environment:
@@ -39,4 +40,4 @@ services:
     depends_on:
       - couchdb3
     networks:
-      - test
+      - dp-fabric

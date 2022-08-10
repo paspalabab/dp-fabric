@@ -6,8 +6,9 @@
 version: '3.7'
 
 networks:
-  test:
-    name: fabric_test
+  dp-fabric:
+    external:
+      name: dp-fabric
 
 services:
   ca_org4:
@@ -25,3 +26,5 @@ services:
     volumes:
       - ./organizations/fabric-ca/org:/etc/hyperledger/fabric-ca-server
     container_name: ca_org4
+    networks:
+      - dp-fabric
