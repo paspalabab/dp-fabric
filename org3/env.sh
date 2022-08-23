@@ -1,54 +1,59 @@
-ROOTDIR=$(cd "$(dirname "$0")" && pwd)
-export PATH=${ROOTDIR}/../bin:${PWD}/../bin:$PATH
-# export FABRIC_CFG_PATH=${PWD}/configtx
-export VERBOSE=false
+# common config scripts path
+COMMON_SCRIPTS_PATH=${PWD}/../scripts
+PEER_SCRIPTS_PATH=${COMMON_SCRIPTS_PATH}/peers
 
-# Versions of fabric known not to work with the test network
-NONWORKING_VERSIONS="^1\.0\. ^1\.1\. ^1\.2\. ^1\.3\. ^1\.4\."
+export DOCKER_SOCK_HOST='${DOCKER_SOCK}'
+export SET_COUCHDB_HOST=couchdb2
+export SET_COUCHDB_USER=admin
+export SET_COUCHDB_PASSWORD=adminpw
+export SET_COUCHDB_LOCAL_PORT=5984
+export SET_COUCHDB_HOST_PORT=5986
+export SET_PEER_LISTENPORT=8521
+export SET_CHAINCODE_SERPORT=8522
+export SET_OPERATIONS_LISTENPORT=8523
+export SET_CHAINCODE_CONFIG='{"peername":"peer0org3"}'
 
-# docker tools env
-: ${CONTAINER_CLI:="docker"}
-: ${CONTAINER_CLI_COMPOSE:="${CONTAINER_CLI}-compose"}
-# infoln "Using ${CONTAINER_CLI} and ${CONTAINER_CLI_COMPOSE}"
-SOCK="${DOCKER_HOST:-/var/run/docker.sock}"
-DOCKER_SOCK="${SOCK##unix://}"
+# 1.Home path of config files fetched by ca client from ca server
+THIS_ORG_HOST=org3.example.com
+HOST_NAME_ABRR=Org3
+export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/${THIS_ORG_HOST}
+FABRIC_CA_CERT=${PWD}/../fabric-ca/organizations/fabric-ca/org/ca-cert.pem
+FABRIC_CA_NAME=fabric-ca
 
-# use this as the default docker-compose yaml definition
-COMPOSE_FILE_BASE=compose-peer.yaml
-# use this as the docker env compose yaml definition
-COMPOSE_FILE_DOCKER_ENV=docker-compose-peer.yaml
-# docker-compose.yaml file if you are using couchdb
-COMPOSE_FILE_COUCH=compose-couch.yaml
-# certificate authorities compose file
-COMPOSE_FILE_CA=compose-ca.yaml
+# 1.1 CA net infor, must in sync with compose-ca.yaml
+CA_SERVICE_PORT=9054
+CA_SERVICE_IP=localhost
+CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
 
-# channel name defaults to "mychannel"
-CHANNEL_NAME="mychannel"
-# another container before giving up
-MAX_RETRY=5
-# default for delay between commands
-CLI_DELAY=1
+# 1.2 host infor of peer node
+export CA_REG_PEER_HOST=peer0.${THIS_ORG_HOST}
 
+# 1.3 user info 
+CA_ADMIN_NAME=admin
+CA_ADMIN_PW=adminpw
+CA_REG_PEER_NAME=${HOST_NAME_ABRR}peer0
+CA_REG_PEER_PW=${HOST_NAME_ABRR}peer0pw
+CA_REG_PEER_ADMIN_NAME=${HOST_NAME_ABRR}admin
+CA_REG_PEER_ADMIN_PW=${HOST_NAME_ABRR}adminpw
+CA_REG_PEER_USER1_NAME=${HOST_NAME_ABRR}user1
+CA_REG_PEER_USER1_PW=${HOST_NAME_ABRR}user1pw
 
-# export ORDERER_CA=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/orderer/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
-# export CORE_PEER_LOCALMSPID="Org3MSP"
-# export CORE_PEER_MSPCONFIGPATH=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-# export CORE_PEER_ADDRESS=localhost:7051
-export FABRIC_CFG_PATH=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/config
+# 1.4 key applicaiton context field
+ORG_NUMBER=3
+PEER_SERVICE_ADDR=localhost
+PEER_SERVICE_PORT=${SET_PEER_LISTENPORT}
 
+# 2. orderer node service visit context when 
+ORDERER_CA=${PWD}/../orderer3/organizations/tlsca/tlsca.example.com-cert.pem
+CA_REG_ORDERER_HOST=orderer3.example.com
+ORDERER_SERVICE_ADDRESS=localhost:8052
 
-# export CORE_PEER_TLS_ENABLED=true
-# export CORE_PEER_PROFILE_ENABLED=false
-# export CORE_PEER_TLS_CERT_FILE=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/server.crt
-# export CORE_PEER_TLS_KEY_FILE=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/server.key
-# export CORE_PEER_TLS_ROOTCERT_FILE=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+# 3.default core config of peer node 
+export FABRIC_CFG_PATH=${PWD}/config
 
+# 4. runtime context of peer node
 export CORE_PEER_TLS_ENABLED=true
-export ORDERER_CA=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/orderer/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
-export PEER0_ORG3_CA=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/organizations/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
-export CORE_PEER_LOCALMSPID="Org3MSP"
-export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
-export CORE_PEER_MSPCONFIGPATH=/home/dunne/kindpower/go/411212245@qq.com/test-fabric-samples/test-network/dp/org3/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-export CORE_PEER_ADDRESS=localhost:11051
-
-BLOCKFILE="./channel-artifacts/${CHANNEL_NAME}.block"
+export CORE_PEER_LOCALMSPID="${HOST_NAME_ABRR}MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=${FABRIC_CA_CLIENT_HOME}/tlsca/tlsca.${THIS_ORG_HOST}-cert.pem
+export CORE_PEER_MSPCONFIGPATH=${FABRIC_CA_CLIENT_HOME}/users/Admin@${THIS_ORG_HOST}/msp
+export CORE_PEER_ADDRESS=${PEER_SERVICE_ADDR}:${PEER_SERVICE_PORT}

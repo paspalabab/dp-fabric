@@ -3,19 +3,19 @@ COMMON_SCRIPTS_PATH=${PWD}/../scripts
 PEER_SCRIPTS_PATH=${COMMON_SCRIPTS_PATH}/peers
 
 export DOCKER_SOCK_HOST='${DOCKER_SOCK}'
-export SET_COUCHDB_HOST=couchdb0
+export SET_COUCHDB_HOST=couchdb4
 export SET_COUCHDB_USER=admin
 export SET_COUCHDB_PASSWORD=adminpw
 export SET_COUCHDB_LOCAL_PORT=5984
-export SET_COUCHDB_HOST_PORT=5984
-export SET_PEER_LISTENPORT=8501
-export SET_CHAINCODE_SERPORT=8502
-export SET_OPERATIONS_LISTENPORT=8503
-export SET_CHAINCODE_CONFIG='{"peername":"peer0org1"}'
+export SET_COUCHDB_HOST_PORT=5988
+export SET_PEER_LISTENPORT=8541
+export SET_CHAINCODE_SERPORT=8542
+export SET_OPERATIONS_LISTENPORT=8543
+export SET_CHAINCODE_CONFIG='{"peername":"peer0org5"}'
 
 # 1.Home path of config files fetched by ca client from ca server
-THIS_ORG_HOST=org1.example.com
-HOST_NAME_ABRR=Org1
+THIS_ORG_HOST=org5.example.com
+HOST_NAME_ABRR=Org5
 export FABRIC_CA_CLIENT_HOME=${PWD}/organizations/peerOrganizations/${THIS_ORG_HOST}
 FABRIC_CA_CERT=${PWD}/../fabric-ca/organizations/fabric-ca/org/ca-cert.pem
 FABRIC_CA_NAME=fabric-ca
@@ -39,14 +39,14 @@ CA_REG_PEER_USER1_NAME=${HOST_NAME_ABRR}user1
 CA_REG_PEER_USER1_PW=${HOST_NAME_ABRR}user1pw
 
 # 1.4 key applicaiton context field
-ORG_NUMBER=1
+ORG_NUMBER=5
 PEER_SERVICE_ADDR=localhost
 PEER_SERVICE_PORT=${SET_PEER_LISTENPORT}
 
 # 2. orderer node service visit context when 
-ORDERER_CA=${PWD}/../orderer1/organizations/tlsca/tlsca.example.com-cert.pem
-CA_REG_ORDERER_HOST=orderer.example.com
-ORDERER_SERVICE_ADDRESS=localhost:8050
+ORDERER_CA=${PWD}/../orderer5/organizations/tlsca/tlsca.example.com-cert.pem
+CA_REG_ORDERER_HOST=orderer5.example.com
+ORDERER_SERVICE_ADDRESS=localhost:8054
 
 # 3.default core config of peer node 
 export FABRIC_CFG_PATH=${PWD}/config
