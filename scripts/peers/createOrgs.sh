@@ -1,3 +1,7 @@
+. env.sh
+. ${PEER_SCRIPTS_PATH}/commonEnv.sh
+. ${COMMON_SCRIPTS_PATH}/utils.sh
+
 function createOrgs() {
   infoln "Enrolling the CA admin"
 

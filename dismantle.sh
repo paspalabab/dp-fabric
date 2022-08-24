@@ -39,6 +39,7 @@ do
   rm -rf ${HOME_FOR_SETUP}/${each_orderer_config_path}/setup*.sh
   rm -rf ${HOME_FOR_SETUP}/${each_orderer_config_path}/setchan*.sh
   rm -rf ${HOME_FOR_SETUP}/${each_orderer_config_path}/dismantle*.sh
+  rm -rf ${HOME_FOR_SETUP}/${each_orderer_config_path}/createOrgs.sh
 done
 
 for each_org_config_path in "${orglist[@]}"
@@ -53,6 +54,7 @@ do
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/createAndSignNewOrgConfig.sh
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/updateConfigtx.sh
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/removePeer.sh
+  rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/createOrgs.sh
 done
 
 rm -rf ${HOME_FOR_SETUP}/configtx

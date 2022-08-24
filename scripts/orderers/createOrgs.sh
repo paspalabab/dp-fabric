@@ -1,3 +1,7 @@
+. env.sh
+. ${ORDERER_SCRIPTS_PATH}/globalOrdererEnv.sh
+. ${COMMON_SCRIPTS_PATH}/utils.sh
+
 function createOrgs() {
   infoln "Enrolling the CA admin"
   
@@ -105,3 +109,5 @@ function createOrgs() {
   cp "${FABRIC_CA_CLIENT_HOME}/msp/config.yaml" \
   "${FABRIC_CA_CLIENT_HOME}/users/Admin@example.com/msp/config.yaml"
 }
+
+createOrgs

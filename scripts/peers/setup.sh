@@ -10,7 +10,6 @@ mkdir -p config && cp ${PEER_SCRIPTS_PATH}/core.yaml config
 pushd ${ROOTDIR} > /dev/null
 trap "popd > /dev/null" EXIT
 
-. ${PEER_SCRIPTS_PATH}/createOrgs.sh
 . ${PEER_SCRIPTS_PATH}/ccp-generate.sh
 . ${PEER_SCRIPTS_PATH}/genCompose.sh
 

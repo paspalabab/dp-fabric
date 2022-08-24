@@ -22,11 +22,14 @@ echo "wait for 3 seconds before the ca server is ready..."
 sleep 3
 
 # set up orderer nodes
+
+echo "prepair the scripts and create the org though ca interacting for orderers. "
 for each_orderer_config_path in "${ordererlist[@]}"
 do
    cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
-   cp ../scripts/orderers/setup.sh .  && cp ../scripts/orderers/dismantle.sh . && cp ../scripts/orderers/setchan.sh . \
-   && chmod -R 777 *.sh && ./setup.sh
+   cp ../scripts/orderers/setup.sh .  && cp ../scripts/orderers/dismantle.sh . && cp ../scripts/orderers/setchan.sh . && cp ../scripts/orderers/createOrgs.sh . \
+   
+   chmod -R 777 *.sh && ./createOrgs.sh
 
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
    cp ${HOME_FOR_SETUP}/${each_orderer_config_path}/${ORDERER_ADMIN_TLS_CERT_RALETIVE_PATH} \
@@ -35,18 +38,35 @@ do
    ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
 done
 
+echo "set up orders. "
+for each_orderer_config_path in "${ordererlist[@]}"
+do
+   cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
+   ./setup.sh
+done
+
+echo "prepair the scripts and create the org though ca interacting for Orgs. "
 # set up the org peer nodes
 for each_org_config_path in "${orglist[@]}"
 do
    cd ${HOME_FOR_SETUP}/${each_org_config_path}
    cp ../scripts/peers/setup.sh . && cp ../scripts/peers/query.sh . && cp ../scripts/peers/dismantle.sh . \
    && cp ../scripts/peers/joinchan.sh . && cp ../scripts/peers/fetchCurChanConfig.sh . \
-   && cp ../scripts/peers/createAndSignNewOrgConfig.sh . && cp ../scripts/peers/updateConfigtx.sh . && cp ../scripts/peers/removePeer.sh .
-   chmod -R 777 *.sh && ./setup.sh
+   && cp ../scripts/peers/createAndSignNewOrgConfig.sh . && cp ../scripts/peers/updateConfigtx.sh . \
+   && cp ../scripts/peers/removePeer.sh . && cp ../scripts/peers/createOrgs.sh .
+
+   chmod -R 777 *.sh  && ./createOrgs.sh
    
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
    cp -rf ${HOME_FOR_SETUP}/${each_org_config_path}/organizations/peerOrganizations/${each_org_config_path}.example.com/msp \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
+done
+
+echo "set up Orgs. "
+for each_org_config_path in "${orglist[@]}"
+do
+   cd ${HOME_FOR_SETUP}/${each_org_config_path}
+   ./setup.sh
 done
 
 # create the channel
