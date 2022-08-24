@@ -1,0 +1,36 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3.7'
+
+# networks:
+#   test:
+#     name: fabric_test
+
+networks:
+    fabric:
+        external:
+            name: fabric
+
+services:
+
+  fabric-cli:
+    container_name: fabric-cli
+    image: hyperledger/fabric-tools:latest
+    labels:
+      service: hyperledger-fabric
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      #- FABRIC_LOGGING_SPEC=DEBUG
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/home
+    command: /bin/bash
+    volumes:
+        - ../:/opt/gopath/src/github.com/hyperledger/fabric/home
+    networks:
+      - fabric

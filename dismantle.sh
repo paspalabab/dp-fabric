@@ -12,7 +12,10 @@ declare -a orglist=("org1" "org2" "org3" "org4" "org5" "org6")
 i=0
 while [ $i -le 2 ]
 do
-  cd fabric-ca
+  cd $HOME_FOR_SETUP/fabric-cli
+  ./dismantle.sh || true
+
+  cd $HOME_FOR_SETUP/fabric-ca
   ./dismantle.sh || true
 
   for each_orderer_config_path in "${ordererlist[@]}"

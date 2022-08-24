@@ -14,7 +14,9 @@ mkdir -p configtx/cryptogen
 cp scripts/configtx.yaml configtx
 
 # set up ca agency 
-cd fabric-ca/
+cd $HOME_FOR_SETUP/fabric-cli/
+./setup.sh
+cd $HOME_FOR_SETUP/fabric-ca/
 ./setup.sh
 echo "wait for 3 seconds before the ca server is ready..."
 sleep 3
