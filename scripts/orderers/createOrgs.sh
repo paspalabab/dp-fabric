@@ -10,19 +10,21 @@ function createOrgs() {
   --tls.certfiles ${FABRIC_CA_CERT}
   { set +x; } 2>/dev/null
 
+
+  CA_SERVICE_IP_HYPEH_LINKAGE=$(echo $CA_SERVICE_IP | sed 's/\./-/g')
   echo "NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/${CA_SERVICE_IP}-${CA_SERVICE_PORT}-fabric-ca.pem
+    Certificate: cacerts/${CA_SERVICE_IP_HYPEH_LINKAGE}-${CA_SERVICE_PORT}-fabric-ca.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/${CA_SERVICE_IP}-${CA_SERVICE_PORT}-fabric-ca.pem
+    Certificate: cacerts/${CA_SERVICE_IP_HYPEH_LINKAGE}-${CA_SERVICE_PORT}-fabric-ca.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/${CA_SERVICE_IP}-${CA_SERVICE_PORT}-fabric-ca.pem
+    Certificate: cacerts/${CA_SERVICE_IP_HYPEH_LINKAGE}-${CA_SERVICE_PORT}-fabric-ca.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/${CA_SERVICE_IP}-${CA_SERVICE_PORT}-fabric-ca.pem
+    Certificate: cacerts/${CA_SERVICE_IP_HYPEH_LINKAGE}-${CA_SERVICE_PORT}-fabric-ca.pem
     OrganizationalUnitIdentifier: orderer" \
   >"${FABRIC_CA_CLIENT_HOME}/msp/config.yaml"
 

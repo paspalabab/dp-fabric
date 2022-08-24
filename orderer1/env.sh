@@ -3,12 +3,6 @@ COMMON_SCRIPTS_PATH=${PWD}/../scripts
 ORDERER_SCRIPTS_PATH=${COMMON_SCRIPTS_PATH}/orderers
 
 # CA service, must in sync with compose-ca.yaml
-CA_SERVICE_PORT=9054
-CA_SERVICE_IP=localhost
-CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
-CA_ADMIN_NAME=admin
-CA_ADMIN_PW=adminpw
-
 export CA_REG_ORDERER_HOST=orderer.example.com
 CA_REG_ORDERER_NAME=orderer
 CA_REG_ORDERER_PW=ordererpw

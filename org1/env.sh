@@ -21,16 +21,17 @@ FABRIC_CA_CERT=${PWD}/../fabric-ca/organizations/fabric-ca/org/ca-cert.pem
 FABRIC_CA_NAME=fabric-ca
 
 # 1.1 CA net infor, must in sync with compose-ca.yaml
-CA_SERVICE_PORT=9054
-CA_SERVICE_IP=localhost
-CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
+# CA_SERVICE_PORT=9054
+# CA_SERVICE_IP=localhost
+# CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
+# CA_ADMIN_NAME=admin
+# CA_ADMIN_PW=adminpw
 
 # 1.2 host infor of peer node
 export CA_REG_PEER_HOST=peer0.${THIS_ORG_HOST}
 
 # 1.3 user info 
-CA_ADMIN_NAME=admin
-CA_ADMIN_PW=adminpw
+
 CA_REG_PEER_NAME=${HOST_NAME_ABRR}peer0
 CA_REG_PEER_PW=${HOST_NAME_ABRR}peer0pw
 CA_REG_PEER_ADMIN_NAME=${HOST_NAME_ABRR}admin

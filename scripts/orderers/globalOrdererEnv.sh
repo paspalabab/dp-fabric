@@ -38,3 +38,10 @@ export CORE_PEER_TLS_ENABLED=true
 export FABRIC_CA_CLIENT_HOME=${PWD}/organizations
 export ORDERER_ADMIN_TLS_SIGN_CERT=${FABRIC_CA_CLIENT_HOME}/orderers/tls/server.crt
 export ORDERER_ADMIN_TLS_PRIVATE_KEY=${FABRIC_CA_CLIENT_HOME}/orderers/tls/server.key
+
+# CA service, must in sync with compose-ca.yaml
+CA_SERVICE_PORT=9054
+CA_SERVICE_IP=192.168.0.193
+CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
+CA_ADMIN_NAME=admin
+CA_ADMIN_PW=adminpw

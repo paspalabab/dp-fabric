@@ -35,3 +35,10 @@ COMPOSE_FILE_COUCH=compose-couch.yaml
 COMPOSE_FILES="-f ${COMPOSE_FILE_BASE} -f ${COMPOSE_FILE_DOCKER_ENV} -f ${COMPOSE_FILE_COUCH}"
 
 BLOCKFILE=${PWD}/../configtx/channel-artifacts/${CHANNEL_NAME}.block
+
+# CA service, must in sync with compose-ca.yaml
+CA_SERVICE_PORT=9054
+CA_SERVICE_IP=192.168.0.193
+CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
+CA_ADMIN_NAME=admin
+CA_ADMIN_PW=adminpw
