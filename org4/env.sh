@@ -40,13 +40,13 @@ CA_REG_PEER_USER1_PW=${HOST_NAME_ABRR}user1pw
 
 # 1.4 key applicaiton context field
 ORG_NUMBER=4
-PEER_SERVICE_ADDR=localhost
+PEER_SERVICE_ADDR=${CA_REG_PEER_HOST}
 PEER_SERVICE_PORT=${SET_PEER_LISTENPORT}
 
 # 2. orderer node service visit context when 
 ORDERER_CA=${PWD}/../orderer4/organizations/tlsca/tlsca.example.com-cert.pem
 CA_REG_ORDERER_HOST=orderer4.example.com
-ORDERER_SERVICE_ADDRESS=localhost:8053
+ORDERER_SERVICE_ADDRESS=${CA_REG_ORDERER_HOST}:8053
 
 # 3.default core config of peer node 
 export FABRIC_CFG_PATH=${PWD}/config

@@ -9,12 +9,13 @@ declare -a orglist=("org1" "org2" "org3" "org4" "org5")
 # declare -a orglist=("org1" "org2" )
 { set +x; } 2>/dev/null
 
-mkdir -p configtx
 mkdir -p configtx/cryptogen
 cp scripts/configtx.yaml configtx
 
 # set up ca agency 
 cd $HOME_FOR_SETUP/fabric-cli/
+./setup.sh
+cd $HOME_FOR_SETUP/fabric-ca-cli/
 ./setup.sh
 cd $HOME_FOR_SETUP/fabric-ca/
 ./setup.sh
@@ -29,12 +30,12 @@ do
    cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
    cp ../scripts/orderers/setup.sh .  && cp ../scripts/orderers/dismantle.sh . && cp ../scripts/orderers/setchan.sh . && cp ../scripts/orderers/createOrgs.sh . \
    
-   chmod -R 777 *.sh && ./createOrgs.sh
+   docker exec fabric-ca-cli /bin/sh -c "cd etc/hyperledger/home/$each_orderer_config_path; pwd; ./createOrgs.sh"
 
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
-   cp ${HOME_FOR_SETUP}/${each_orderer_config_path}/${ORDERER_ADMIN_TLS_CERT_RALETIVE_PATH} \
+   sudo cp ${HOME_FOR_SETUP}/${each_orderer_config_path}/${ORDERER_ADMIN_TLS_CERT_RALETIVE_PATH} \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
-   cp -rf ${HOME_FOR_SETUP}/${each_orderer_config_path}/${FABRIC_CA_CLIENT_HOME_RALETIVE_PATH}/msp \
+   sudo cp -rf ${HOME_FOR_SETUP}/${each_orderer_config_path}/${FABRIC_CA_CLIENT_HOME_RALETIVE_PATH}/msp \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
 done
 
@@ -53,12 +54,12 @@ do
    cp ../scripts/peers/setup.sh . && cp ../scripts/peers/query.sh . && cp ../scripts/peers/dismantle.sh . \
    && cp ../scripts/peers/joinchan.sh . && cp ../scripts/peers/fetchCurChanConfig.sh . \
    && cp ../scripts/peers/createAndSignNewOrgConfig.sh . && cp ../scripts/peers/updateConfigtx.sh . \
-   && cp ../scripts/peers/removePeer.sh . && cp ../scripts/peers/createOrgs.sh .
+   && cp ../scripts/peers/removePeer.sh . && cp ../scripts/peers/createOrgs.sh . && cp ../scripts/peers/generateOrgDefinition.sh .
 
-   chmod -R 777 *.sh  && ./createOrgs.sh
+   docker exec fabric-ca-cli /bin/sh -c "cd etc/hyperledger/home/$each_org_config_path; pwd; ./createOrgs.sh"
    
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
-   cp -rf ${HOME_FOR_SETUP}/${each_org_config_path}/organizations/peerOrganizations/${each_org_config_path}.example.com/msp \
+   sudo cp -rf ${HOME_FOR_SETUP}/${each_org_config_path}/organizations/peerOrganizations/${each_org_config_path}.example.com/msp \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
 done
 
@@ -70,15 +71,16 @@ do
 done
 
 # create the channel
+FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 for each_orderer_config_path in "${ordererlist[@]}"
 do
-   cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
+   # cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
    
    if [ ${each_orderer_config_path} = "orderer1" ]
    then
-      ./setchan.sh --cfgxpath ${FABRIC_CONFIGTX_PATH} --genblockpath ${FABRIC_CONFIGTX_PATH}/channel-artifacts
+      docker exec fabric-cli /bin/sh -c "cd ${FABRIC_CLI_WORK_HOME}/$each_orderer_config_path; pwd; ./setchan.sh --cfgxpath ${FABRIC_CLI_WORK_HOME}/configtx --genblockpath ${FABRIC_CLI_WORK_HOME}/configtx/channel-artifacts"
    else
-      ./setchan.sh --genblockpath ${FABRIC_CONFIGTX_PATH}/channel-artifacts
+      docker exec fabric-cli /bin/sh -c "cd ${FABRIC_CLI_WORK_HOME}/$each_orderer_config_path; pwd; ./setchan.sh --genblockpath ${FABRIC_CLI_WORK_HOME}/configtx/channel-artifacts"
    fi
 done
 sleep 3
@@ -86,14 +88,11 @@ sleep 3
 # let peers join the channel
 for each_org_config_path in "${orglist[@]}"
 do
-   cd ${HOME_FOR_SETUP}/${each_org_config_path}
-   ./joinchan.sh
+   docker exec fabric-cli /bin/sh -c "cd ${FABRIC_CLI_WORK_HOME}/$each_org_config_path; pwd; ./joinchan.sh"
 done
 
 sleep 3
 for each_org_config_path in "${orglist[@]}"
 do
-   echo "check peer and channel block info though node peer of  ${each_org_config_path}"
-   cd ${HOME_FOR_SETUP}/${each_org_config_path}
-   ./query.sh
+    docker exec fabric-cli /bin/sh -c "cd ${FABRIC_CLI_WORK_HOME}/$each_org_config_path; pwd; ./query.sh"
 done

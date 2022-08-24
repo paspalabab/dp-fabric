@@ -1,20 +1,3 @@
-ROOTDIR=$(cd "$(dirname "$0")" && pwd)
-export PATH=${ROOTDIR}/../bin:${PWD}/../bin:$PATH
-
-export VERBOSE=false
-
-: ${CONTAINER_CLI:="docker"}
-: ${CONTAINER_CLI_COMPOSE:="${CONTAINER_CLI}-compose"}
-# infoln "Using ${CONTAINER_CLI} and ${CONTAINER_CLI_COMPOSE}"
-SOCK="${DOCKER_HOST:-/var/run/docker.sock}"
-DOCKER_SOCK="${SOCK##unix://}"
-
-export FabricUID=$(id -u)
-export GID=$(id -g)
-
-# Versions of fabric known not to work with the test network
-NONWORKING_VERSIONS="^1\.0\. ^1\.1\. ^1\.2\. ^1\.3\. ^1\.4\."
-
 # timeout duration - the duration the CLI should wait for a response from
 # another container before giving up
 MAX_RETRY=5
@@ -38,7 +21,7 @@ BLOCKFILE=${PWD}/../configtx/channel-artifacts/${CHANNEL_NAME}.block
 
 # CA service, must in sync with compose-ca.yaml
 CA_SERVICE_PORT=9054
-CA_SERVICE_IP=192.168.0.193
+CA_SERVICE_IP=fabric-ca
 CA_SERVICE_ADDRESS=${CA_SERVICE_IP}:${CA_SERVICE_PORT}
 CA_ADMIN_NAME=admin
 CA_ADMIN_PW=adminpw

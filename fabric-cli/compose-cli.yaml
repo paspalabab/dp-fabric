@@ -27,6 +27,7 @@ services:
       - GOPATH=/opt/gopath
       - FABRIC_LOGGING_SPEC=INFO
       - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
       #- FABRIC_LOGGING_SPEC=DEBUG
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/home
     command: /bin/bash

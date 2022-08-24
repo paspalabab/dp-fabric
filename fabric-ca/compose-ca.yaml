@@ -16,7 +16,7 @@ networks:
 
 services:
 
-  fabric_ca:
+  fabric-ca:
     image: hyperledger/fabric-ca:latest
     labels:
       service: hyperledger-fabric
@@ -32,6 +32,6 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./organizations/fabric-ca/org:/etc/hyperledger/fabric-ca-server
-    container_name: fabric_ca
+    container_name: fabric-ca
     networks:
       - fabric

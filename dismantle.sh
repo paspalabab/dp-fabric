@@ -15,6 +15,9 @@ do
   cd $HOME_FOR_SETUP/fabric-cli
   ./dismantle.sh || true
 
+  cd $HOME_FOR_SETUP/fabric-ca-cli
+  ./dismantle.sh || true
+
   cd $HOME_FOR_SETUP/fabric-ca
   ./dismantle.sh || true
 
@@ -57,7 +60,7 @@ do
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/createOrgs.sh
 done
 
-rm -rf ${HOME_FOR_SETUP}/configtx
+sudo rm -rf ${HOME_FOR_SETUP}/configtx
 
 docker ps
 

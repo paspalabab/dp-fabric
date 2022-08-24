@@ -3,10 +3,6 @@
 . ${COMMON_SCRIPTS_PATH}/utils.sh
 . ${ORDERER_SCRIPTS_PATH}/createChanAndGenBlock.sh
 
-# push to the required directory & set a trap to go back if needed
-pushd ${ROOTDIR} > /dev/null
-trap "popd > /dev/null" EXIT
-
 while [[ $# -ge 1 ]] ; do
   key="$1"
   case $key in

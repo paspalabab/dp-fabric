@@ -1,0 +1,38 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3.7'
+
+# networks:
+#   test:
+#     name: fabric_test
+
+networks:
+    fabric:
+        external:
+            name: fabric
+
+services:
+
+  fabric-ca-cli:
+    image: hyperledger/fabric-ca:latest
+    labels:
+      service: hyperledger-fabric
+    tty: true
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/home
+      # - FABRIC_CA_SERVER_CA_NAME=fabric-ca
+      # - FABRIC_CA_SERVER_TLS_ENABLED=true
+      # - FABRIC_CA_SERVER_PORT=9054
+      # - FABRIC_CA_SERVER_OPERATIONS_LISTENADDRESS=0.0.0.0:19054
+    # ports:
+    #   - "9054:9054"
+    #   - "19054:19054"
+    command: sh -c 'tail -F anything'
+    volumes:
+      - ../:/etc/hyperledger/home
+    container_name: fabric-ca-cli
+    networks:
+      - fabric
