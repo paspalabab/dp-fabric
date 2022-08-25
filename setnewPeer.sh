@@ -2,12 +2,12 @@ set -x
 HOME_FOR_SETUP=${PWD}
 FABRIC_CONFIGTX_PATH=${HOME_FOR_SETUP}/configtx
 declare -a orglist=("org6")
+FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 { set +x; } 2>/dev/null
 
 
 echo "prepair the scripts and create the org though ca interacting for Orgs. "
 # set up the org peer nodes
-FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 for each_org_config_path in "${orglist[@]}"
 do
    cd ${HOME_FOR_SETUP}/${each_org_config_path}
@@ -23,6 +23,8 @@ do
    sudo cp -rf ${HOME_FOR_SETUP}/${each_org_config_path}/organizations/peerOrganizations/${each_org_config_path}.example.com/msp \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
 done
+
+docker exec -it fabric-cli sh -c "chmod -R 777 $FABRIC_CLI_WORK_HOME"
 
 echo "set up Orgs. "
 for each_org_config_path in "${orglist[@]}"

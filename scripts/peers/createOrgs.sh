@@ -5,6 +5,8 @@
 function createOrgs() {
   infoln "Enrolling the CA admin"
 
+  mkdir -p ${FABRIC_CA_CLIENT_HOME}
+
   set -x
   fabric-ca-client enroll \
   -u https://${CA_ADMIN_NAME}:${CA_ADMIN_PW}@${CA_SERVICE_ADDRESS} \

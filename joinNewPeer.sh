@@ -1,12 +1,11 @@
 set -x
 declare -a orglist=("org6")
 declare -a existingOrglist=("org1" "org2" "org3" "org4" "org5")
+FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 { set +x; } 2>/dev/null
 
-FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 for each_org_config_path in "${existingOrglist[@]}"
 do
-   cd ${FABRIC_CLI_WORK_HOME}/${each_org_config_path}
    if [ ${each_org_config_path} = "org1" ]; then
        echo "fetch config through node peer of ${each_org_config_path}"
        echo "Creating config transaction to add new org to network through node peer of ${each_org_config_path}"

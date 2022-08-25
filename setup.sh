@@ -5,6 +5,7 @@ ORDERER_ADMIN_TLS_CERT_RALETIVE_PATH=${FABRIC_CA_CLIENT_HOME_RALETIVE_PATH}/orde
 FABRIC_CONFIGTX_PATH=${HOME_FOR_SETUP}/configtx
 declare -a ordererlist=("orderer1" "orderer2" "orderer3" "orderer4" "orderer5" )
 declare -a orglist=("org1" "org2" "org3" "org4" "org5")
+FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 { set +x; } 2>/dev/null
 
 mkdir -p configtx/cryptogen
@@ -37,14 +38,8 @@ do
    ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
 done
 
-echo "set up orders. "
-for each_orderer_config_path in "${ordererlist[@]}"
-do
-   cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
-   ./setup.sh
-done
-
 echo "prepair the scripts and create the org though ca interacting for Orgs. "
+
 # set up the org peer nodes
 for each_org_config_path in "${orglist[@]}"
 do
@@ -61,6 +56,15 @@ do
    ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
 done
 
+docker exec -it fabric-cli sh -c "chmod -R 777 $FABRIC_CLI_WORK_HOME"
+
+echo "set up orders. "
+for each_orderer_config_path in "${ordererlist[@]}"
+do
+   cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
+   ./setup.sh
+done
+
 echo "set up Orgs. "
 for each_org_config_path in "${orglist[@]}"
 do
@@ -69,7 +73,6 @@ do
 done
 
 # create the channel
-FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 for each_orderer_config_path in "${ordererlist[@]}"
 do
    # cd ${HOME_FOR_SETUP}/${each_orderer_config_path}

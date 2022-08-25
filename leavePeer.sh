@@ -1,9 +1,9 @@
 set -x
 declare -a orglist=("org6")
 declare -a existingOrglist=("org1" "org2" "org3" "org4" "org5")
+FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 { set +x; } 2>/dev/null
 
-FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
 echo "remove peer node of org6"
 for each_org_config_path in "${existingOrglist[@]}"
 do

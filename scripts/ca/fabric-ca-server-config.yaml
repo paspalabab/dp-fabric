@@ -268,7 +268,7 @@ signing:
     default:
       usage:
         - digital signature
-      expiry: 8760h
+      expiry: 87600h
     profiles:
       ca:
          usage:
@@ -285,7 +285,7 @@ signing:
             - server auth
             - client auth
             - key agreement
-         expiry: 8760h
+         expiry: 87600h
 
 ###########################################################################
 #  Certificate Signing Request (CSR) section.
@@ -313,15 +313,15 @@ csr:
      algo: ecdsa
      size: 256
    names:
-      - C: US
-        ST: "North Carolina"
-        L:
-        O: Hyperledger
-        OU: Fabric
+      - C: CN
+        ST: "JiangSu"
+        L: "NanJing"
+        O: DigitPlanet
+        OU: DigitCol
    hosts:
      - 76479e4b258b
      - localhost
-     - 192.168.0.193
+    #  - 192.168.0.193
      - fabric-ca
    ca:
       expiry: 131400h
