@@ -5,8 +5,6 @@ ORDERER_ADMIN_TLS_CERT_RALETIVE_PATH=${FABRIC_CA_CLIENT_HOME_RALETIVE_PATH}/orde
 FABRIC_CONFIGTX_PATH=${HOME_FOR_SETUP}/configtx
 declare -a ordererlist=("orderer1" "orderer2" "orderer3" "orderer4" "orderer5" )
 declare -a orglist=("org1" "org2" "org3" "org4" "org5")
-# declare -a ordererlist=("orderer1"  )
-# declare -a orglist=("org1" "org2" )
 { set +x; } 2>/dev/null
 
 mkdir -p configtx/cryptogen
