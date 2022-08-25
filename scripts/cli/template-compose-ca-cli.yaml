@@ -16,7 +16,7 @@ networks:
 
 services:
 
-  fabric-ca-cli:
+  fabric-ca-cli-${SET_HOST_NAME}:
     image: hyperledger/fabric-ca:latest
     labels:
       service: hyperledger-fabric
@@ -33,6 +33,6 @@ services:
     command: sh -c 'tail -F anything'
     volumes:
       - ../:/etc/hyperledger/home
-    container_name: fabric-ca-cli
+    container_name: fabric-ca-cli-${SET_HOST_NAME}
     networks:
       - fabric

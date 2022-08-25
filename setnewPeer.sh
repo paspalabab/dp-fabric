@@ -3,6 +3,7 @@ HOME_FOR_SETUP=${PWD}
 FABRIC_CONFIGTX_PATH=${HOME_FOR_SETUP}/configtx
 declare -a orglist=("org6")
 FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
+. ${HOME_FOR_SETUP}/scripts/host.sh
 { set +x; } 2>/dev/null
 
 
@@ -16,15 +17,15 @@ do
    && cp ../scripts/peers/createAndSignNewOrgConfig.sh . && cp ../scripts/peers/updateConfigtx.sh . \
    && cp ../scripts/peers/removePeer.sh . && cp ../scripts/peers/createOrgs.sh . && cp ../scripts/peers/generateOrgDefinition.sh .
 
-   docker exec fabric-ca-cli /bin/sh -c "cd etc/hyperledger/home/$each_org_config_path; pwd; ./createOrgs.sh"
-   docker exec fabric-cli /bin/sh -c "cd $FABRIC_CLI_WORK_HOME/$each_org_config_path; pwd; ./generateOrgDefinition.sh"
+   docker exec $FABRIC_CA_CLI /bin/sh -c "cd etc/hyperledger/home/$each_org_config_path; pwd; ./createOrgs.sh"
+   docker exec $FABRIC_CLI /bin/sh -c "cd $FABRIC_CLI_WORK_HOME/$each_org_config_path; pwd; ./generateOrgDefinition.sh"
    
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
    sudo cp -rf ${HOME_FOR_SETUP}/${each_org_config_path}/organizations/peerOrganizations/${each_org_config_path}.example.com/msp \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
 done
 
-docker exec -it fabric-cli sh -c "chmod -R 777 $FABRIC_CLI_WORK_HOME"
+docker exec -it $FABRIC_CLI sh -c "chmod -R 777 $FABRIC_CLI_WORK_HOME"
 
 echo "set up Orgs. "
 for each_org_config_path in "${orglist[@]}"

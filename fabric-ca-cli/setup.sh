@@ -1,6 +1,8 @@
 . env.sh
 . ${COMMON_SCRIPTS_PATH}/utils.sh
+. ${COMMON_SCRIPTS_PATH}/host.sh
 . ${COMMON_SCRIPTS_PATH}/NetworkUpAndDown.sh
+. ${CLI_SCRIPTS_PATH}/genCACompose.sh
 
 mkdir -p organizations/fabric-ca/org && cp ../scripts/ca/fabric-ca-server-config.yaml organizations/fabric-ca/org
 

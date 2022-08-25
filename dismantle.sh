@@ -35,6 +35,9 @@ do
   ((i++))
 done
 
+rm -rf ${HOME_FOR_SETUP}/fabric-cli/*.yaml
+rm -rf ${HOME_FOR_SETUP}/fabric-ca-cli/*.yaml
+
 # delete unused files
 for each_orderer_config_path in "${ordererlist[@]}"
 do

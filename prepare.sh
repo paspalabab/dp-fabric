@@ -6,6 +6,7 @@ FABRIC_CONFIGTX_PATH=${HOME_FOR_SETUP}/configtx
 declare -a ordererlist=("orderer1" "orderer2" "orderer3" "orderer4" "orderer5" )
 declare -a orglist=("org1" "org2" "org3" "org4" "org5")
 FABRIC_CLI_WORK_HOME=/opt/gopath/src/github.com/hyperledger/fabric/home
+. ${HOME_FOR_SETUP}/scripts/host.sh
 { set +x; } 2>/dev/null
 
 mkdir -p configtx/cryptogen
@@ -29,7 +30,7 @@ do
    cd ${HOME_FOR_SETUP}/${each_orderer_config_path}
    cp ../scripts/orderers/setup.sh .  && cp ../scripts/orderers/dismantle.sh . && cp ../scripts/orderers/setchan.sh . && cp ../scripts/orderers/createOrgs.sh . \
    
-   docker exec fabric-ca-cli /bin/sh -c "cd etc/hyperledger/home/$each_orderer_config_path; pwd; ./createOrgs.sh"
+   docker exec $FABRIC_CA_CLI /bin/sh -c "cd etc/hyperledger/home/$each_orderer_config_path; pwd; ./createOrgs.sh"
 
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/${each_orderer_config_path}
    sudo cp ${HOME_FOR_SETUP}/${each_orderer_config_path}/${ORDERER_ADMIN_TLS_CERT_RALETIVE_PATH} \
@@ -49,11 +50,11 @@ do
    && cp ../scripts/peers/createAndSignNewOrgConfig.sh . && cp ../scripts/peers/updateConfigtx.sh . \
    && cp ../scripts/peers/removePeer.sh . && cp ../scripts/peers/createOrgs.sh . && cp ../scripts/peers/generateOrgDefinition.sh .
 
-   docker exec fabric-ca-cli /bin/sh -c "cd etc/hyperledger/home/$each_org_config_path; pwd; ./createOrgs.sh"
+   docker exec $FABRIC_CA_CLI /bin/sh -c "cd etc/hyperledger/home/$each_org_config_path; pwd; ./createOrgs.sh"
    
    mkdir -p ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
    sudo cp -rf ${HOME_FOR_SETUP}/${each_org_config_path}/organizations/peerOrganizations/${each_org_config_path}.example.com/msp \
    ${FABRIC_CONFIGTX_PATH}/cryptogen/peer${each_org_config_path}
 done
 
-docker exec -it fabric-cli sh -c "chmod -R 777 $FABRIC_CLI_WORK_HOME"
+docker exec -it $FABRIC_CLI sh -c "chmod -R 777 $FABRIC_CLI_WORK_HOME"

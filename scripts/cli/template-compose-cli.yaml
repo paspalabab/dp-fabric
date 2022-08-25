@@ -16,8 +16,8 @@ networks:
 
 services:
 
-  fabric-cli:
-    container_name: fabric-cli
+  fabric-cli-${SET_HOST_NAME}:
+    container_name: fabric-cli-${SET_HOST_NAME}
     image: hyperledger/fabric-tools:latest
     labels:
       service: hyperledger-fabric

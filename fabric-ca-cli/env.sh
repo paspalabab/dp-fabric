@@ -5,7 +5,8 @@ export VERBOSE=false
 
 # common config scripts path
 COMMON_SCRIPTS_PATH=${PWD}/../scripts
-ORDERER_SCRIPTS_PATH=${COMMON_SCRIPTS_PATH}/orderer
+CLI_SCRIPTS_PATH=${COMMON_SCRIPTS_PATH}/cli
+
 
 : ${CONTAINER_CLI:="docker"}
 : ${CONTAINER_CLI_COMPOSE:="${CONTAINER_CLI}-compose"}
