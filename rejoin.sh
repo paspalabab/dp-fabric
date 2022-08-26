@@ -27,7 +27,7 @@ done
 cd $HOME_FOR_SETUP/host5
 ./upNewConfig.sh
 
-sleep5
+sleep 5
 
 echo "check peer and channel block info though node peer of org6"
 docker exec fabric-cli-fabric-host6 /bin/sh -c "cd ${FABRIC_CLI_WORK_HOME}/org6; pwd; ./query.sh; ./fetchCurChanConfig.sh ${FABRIC_CLI_WORK_HOME}/configtx"
