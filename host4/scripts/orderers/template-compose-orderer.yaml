@@ -1,0 +1,63 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3.7'
+
+volumes:
+  ${CA_REG_ORDERER_HOST}:
+
+# networks:
+#   test:
+#     name: fabric_test
+
+version: '3.3'
+networks:
+    fabric:
+        external:
+            name: fabric
+
+services:
+
+  ${CA_REG_ORDERER_HOST}:
+    container_name: ${CA_REG_ORDERER_HOST}
+    image: hyperledger/fabric-orderer:latest
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=${SET_GENERAL_LISTENPORT}
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=${SET_GENERAL_LOCALMSPDIR}
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=${SET_GENERAL_LOCALTLSDIR}/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=${SET_GENERAL_LOCALTLSDIR}/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[${SET_GENERAL_LOCALTLSDIR}/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=${SET_GENERAL_LOCALTLSDIR}/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=${SET_GENERAL_LOCALTLSDIR}/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[${SET_GENERAL_LOCALTLSDIR}/ca.crt]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=${SET_GENERAL_LOCALTLSDIR}/server.crt
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=${SET_GENERAL_LOCALTLSDIR}/server.key
+      - ORDERER_ADMIN_TLS_ROOTCAS=[${SET_GENERAL_LOCALTLSDIR}/ca.crt]
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[${SET_GENERAL_LOCALTLSDIR}/ca.crt]
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:${SET_ADMIN_LISTENADDRESS_PORT}
+      - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:${SET_OPERATIONS_LISTENADDRESS_PORT}
+      - ORDERER_METRICS_PROVIDER=prometheus
+    working_dir: /root
+    command: orderer
+    volumes:
+        - ./organizations/orderers/msp:${SET_GENERAL_LOCALMSPDIR}
+        - ./organizations/orderers/tls/:${SET_GENERAL_LOCALTLSDIR}
+        - ${CA_REG_ORDERER_HOST}:/var/hyperledger/production/orderer
+    ports:
+      - ${SET_GENERAL_LISTENPORT}:${SET_GENERAL_LISTENPORT}
+      - ${SET_ADMIN_LISTENADDRESS_PORT}:${SET_ADMIN_LISTENADDRESS_PORT}
+      - ${SET_OPERATIONS_LISTENADDRESS_PORT}:${SET_OPERATIONS_LISTENADDRESS_PORT}
+    networks:
+      - fabric
