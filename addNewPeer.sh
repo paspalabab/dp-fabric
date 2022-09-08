@@ -29,7 +29,7 @@ done
 cd $HOME_FOR_SETUP/host5
 ./upNewConfig.sh
 
-sleep5
+sleep 5
 
 sudo cp -r $HOME_FOR_SETUP/host5/configtx/channel-artifacts $HOME_FOR_SETUP/host6/configtx/ && sudo chmod -R 777 $HOME_FOR_SETUP/host6/configtx/
 mkdir -p $HOME_FOR_SETUP/host6/orderer1/organizations/tlsca
