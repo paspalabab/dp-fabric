@@ -16,9 +16,7 @@ do
   cd $HOME_FOR_SETUP/fabric-ca-cli
   ./dismantle.sh || true
 
-  # cd $HOME_FOR_SETUP/fabric-ca
-  # ./dismantle.sh || true
-  rm -rf fabric-ca/organizations/fabric-ca/org
+  rm -rf $HOME_FOR_SETUP/fabric-ca/organizations/fabric-ca/org
 
   for each_orderer_config_path in "${ordererlist[@]}"
   do
