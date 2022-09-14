@@ -58,6 +58,8 @@ do
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/updateConfigtx.sh
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/removePeer.sh
   rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/createOrgs.sh
+  rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/deployCC.sh
+  rm -rf ${HOME_FOR_SETUP}/${each_org_config_path}/*.tar.gz
 done
 
 sudo rm -rf ${HOME_FOR_SETUP}/configtx
