@@ -15,12 +15,12 @@ do
 done
 
 sequence=1
-while [ $sequence -le 5 ]
+while [ $sequence -le 6 ]
 do
    if [[ ! -e $HOME_FOR_SETUP/host$sequence ]] ; then
        echo "$HOME_FOR_SETUP/host$sequence is not there, aborting."
        exit
    fi
-   rm -rf $HOME_FOR_SETUP/host$sequence/asset-transfer-basic 
+   rm -rf $HOME_FOR_SETUP/host$sequence/dp-planet-chaincode-go
    sequence=$(( $sequence + 1 ))
 done
