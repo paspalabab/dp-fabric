@@ -109,7 +109,7 @@ function chaincodeInvokeInit() {
   set -x
   fcn_call='{"function":"'${CC_INIT_FCN}'","Args":[]}'
   infoln "invoke fcn call:${fcn_call}"
-  peer chaincode invoke -o ${ORDERER_SERVICE_ADDRESS} --ordererTLSHostnameOverride  ${CA_REG_ORDERER_HOST} --tls --cafile "$ORDERER_CA" -C $CHANNEL_NAME -n ${CC_NAME} --peerAddresses peer0.org5.example.com:8541 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses  peer0.org2.example.com:8511 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org3.example.com:8521 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c ${fcn_call}  > log.txt
+  peer chaincode invoke -o ${ORDERER_SERVICE_ADDRESS} --ordererTLSHostnameOverride  ${CA_REG_ORDERER_HOST} --tls --cafile "$ORDERER_CA" -C $CHANNEL_NAME -n ${CC_NAME} --peerAddresses peer0.org1.example.com:8501 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses  peer0.org2.example.com:8511 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org3.example.com:8521 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c ${fcn_call}  > log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
@@ -123,7 +123,7 @@ function chaincodeQuery() {
   CC_INIT_FCN=GetAllAssets
   fcn_call='{"function":"'${CC_INIT_FCN}'","Args":[]}'
   infoln "invoke fcn call:${fcn_call}"
-  peer chaincode invoke -o ${ORDERER_SERVICE_ADDRESS} --ordererTLSHostnameOverride  ${CA_REG_ORDERER_HOST} --tls --cafile "$ORDERER_CA" -C $CHANNEL_NAME -n ${CC_NAME} --peerAddresses peer0.org5.example.com:8541 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  -c ${fcn_call}  > log.txt
+  peer chaincode invoke -o ${ORDERER_SERVICE_ADDRESS} --ordererTLSHostnameOverride  ${CA_REG_ORDERER_HOST} --tls --cafile "$ORDERER_CA" -C $CHANNEL_NAME -n ${CC_NAME} --peerAddresses peer0.org1.example.com:8501 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  -c ${fcn_call}  > log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt

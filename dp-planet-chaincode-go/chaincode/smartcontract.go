@@ -137,7 +137,7 @@ func (c *SmartContract) MintWithTokenURI(ctx contractapi.TransactionContextInter
 		return nil, fmt.Errorf("failed to get clientMSPID: %v", err)
 	}
 
-	if clientMSPID != "Org1MSP" {
+	if clientMSPID != "Org1MSP" && clientMSPID != "Org2MSP" && clientMSPID != "Org3MSP" {
 		return nil, fmt.Errorf("client is not authorized to mint NFT token")
 	}
 
@@ -210,7 +210,7 @@ func (c *SmartContract) Burn(ctx contractapi.TransactionContextInterface, tokenI
 		return false, fmt.Errorf("failed to get clientMSPID: %v", err)
 	}
 
-	if clientMSPID != "Org1MSP" {
+	if clientMSPID != "Org1MSP" && clientMSPID != "Org2MSP" && clientMSPID != "Org3MSP" {
 		return false, fmt.Errorf("client is not authorized to set the name and symbol of the token")
 	}
 
@@ -272,7 +272,7 @@ func (c *SmartContract) TransferFrom(ctx contractapi.TransactionContextInterface
 		return false, fmt.Errorf("failed to get clientMSPID: %v", err)
 	}
 
-	if clientMSPID != "Org1MSP" {
+	if clientMSPID != "Org1MSP" && clientMSPID != "Org2MSP" && clientMSPID != "Org3MSP" {
 		return false, fmt.Errorf("client is not authorized to set the name and symbol of the token")
 	}
 
